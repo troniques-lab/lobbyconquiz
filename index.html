@@ -494,7 +494,19 @@
         // Configuração Supabase
         const SUPABASE_URL = "https://umeylcnjmmtvevxesves.supabase.co";
         const SUPABASE_KEY = "sb_publishable_hxSVrJVb6viwLFuQw4_Rlg_F6eLR-Jy";
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabaseInstance = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Teste de Conexão
+        async function testSupabase() {
+            try {
+                const { data, error } = await supabaseInstance.from('participants').select('id').limit(1);
+                if (error) throw error;
+                console.log("✅ Supabase Conectado com Sucesso!");
+            } catch (err) {
+                console.warn("⚠️ Supabase: Tabela não encontrada ou erro de chave. Verifique se criou a tabela 'participants'.", err.message);
+            }
+        }
+        testSupabase();
 
         // Elements
         const formCadastro = document.getElementById("cadastroForm");
@@ -542,7 +554,7 @@
 
             // 2. Salvar no Supabase
             try {
-                const { error } = await supabase
+                const { error } = await supabaseInstance
                     .from('participants')
                     .upsert({
                         nome: data.nome,
