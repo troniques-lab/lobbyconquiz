@@ -13,6 +13,8 @@
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -489,8 +491,10 @@
         let playerSector = "";
         let playerUnit = "";
 
-        // URL do Google Apps Script (Cole aqui a URL que você copiou do Google após publicar o script)
-        const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbyP1zq3jM-82_-ovyXkLTkuYGCIBikSrDBsG2sqBi3XRJzmJ__JS-qYm4o_Do9OhOKO5g/exec";
+        // Configuração Supabase
+        const SUPABASE_URL = "https://umeylcnjmmtvevxesves.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_hxSVrJVb6viwLFuQw4_Rlg_F6eLR-Jy";
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // Elements
         const formCadastro = document.getElementById("cadastroForm");
@@ -531,27 +535,29 @@
             });
         }
 
-        // Enviar para Google Sheets (Remoto) e LocalStorage (Local)
-        async function saveToGoogleSheets(data) {
-            // 1. Salvar no LocalStorage (Sempre funciona offline)
+        // Enviar para Supabase (Nuvem) e LocalStorage (Local)
+        async function saveToSupabase(data) {
+            // 1. Salvar no LocalStorage (Backup Offline)
             saveToLocalStorage(data);
 
-            // 2. Tentar salvar no Google Sheets se configurado
-            if (!GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL === "SUA_URL_AQUI") {
-                console.warn("Google Sheets URL não configurada. Dados salvos apenas localmente.");
-                return;
-            }
+            // 2. Salvar no Supabase
             try {
-                await fetch(GOOGLE_SHEETS_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: {
-                        "Content-Type": "text/plain",
-                    },
-                    body: JSON.stringify(data)
-                });
+                const { error } = await supabase
+                    .from('participants')
+                    .upsert({
+                        nome: data.nome,
+                        email: data.email,
+                        setor: data.setor,
+                        unidade: data.unidade,
+                        resultado: data.resultado || null,
+                        status: data.status,
+                        data_formatada: data.data || new Date().toLocaleString("pt-BR")
+                    }, { onConflict: 'email' });
+
+                if (error) throw error;
+                console.log("Sincronizado com Supabase");
             } catch (error) {
-                console.error("Erro ao salvar no Google Sheets:", error);
+                console.error("Erro ao salvar no Supabase:", error);
             }
         }
 
@@ -725,8 +731,8 @@
 
             playerNameHeader.textContent = `JOGADOR: ${playerName.toUpperCase()}`;
 
-            // Envia os dados para o Google Sheets em tempo real
-            saveToGoogleSheets({
+            // Envia os dados para o Supabase em tempo real
+            saveToSupabase({
                 nome: playerName,
                 email: playerEmail,
                 setor: playerSector,
@@ -795,8 +801,8 @@
             document.getElementById("resultDescription").innerHTML = res.description;
             document.getElementById("resultLema").textContent = res.lema;
 
-            // Envia o resultado final para o Google Sheets
-            saveToGoogleSheets({
+            // Envia o resultado final para o Supabase
+            saveToSupabase({
                 nome: playerName,
                 email: playerEmail,
                 setor: playerSector,
