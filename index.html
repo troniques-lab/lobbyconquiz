@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="light">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Lobby CON - Quiz Interativo</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- GSAP para Animações Premium -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffe16a",
+                        "on-background": "#1a1c1c",
+                        "outline-variant": "#cfc6ac",
+                        "inverse-primary": "#e8c404",
+                        "surface-dim": "#dadada",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e2e2e2",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container": "#eeeeee",
+                        "primary-container": "#f9d423",
+                        "surface-tint": "#6f5d00",
+                        "secondary": "#595a8b",
+                        "secondary-fixed-dim": "#c2c1fa",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2f3131",
+                        "on-tertiary-fixed": "#00201c",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-tertiary-container": "#00695d",
+                        "primary": "#6f5d00",
+                        "inverse-on-surface": "#f0f1f1",
+                        "on-primary-container": "#6d5b00",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e8e8e8",
+                        "on-surface-variant": "#4c4733",
+                        "surface": "#f9f9f9",
+                        "tertiary-container": "#6cebd7",
+                        "surface-container-low": "#f3f3f4",
+                        "secondary-fixed": "#e2dfff",
+                        "on-primary-fixed-variant": "#544600",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#006b5f",
+                        "tertiary-fixed": "#79f7e3",
+                        "surface-bright": "#f9f9f9",
+                        "error-container": "#ffdad6",
+                        "background": "#f9f9f9",
+                        "tertiary-fixed-dim": "#59dbc7",
+                        "primary-fixed-dim": "#e8c404",
+                        "on-surface": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#424272",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#c8c7ff",
+                        "on-tertiary-fixed-variant": "#005047",
+                        "outline": "#7e7760",
+                        "on-secondary-fixed": "#161544",
+                        "on-secondary-container": "#515182",
+                        "on-primary-fixed": "#221b00",
+                        "navy-custom": "#28285b",
+                        "lobby-blue": "#28285b",
+                        "lobby-yellow": "#F9D423"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "margin-desktop": "48px",
+                        "stack-offset": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "body-lg": ["Be Vietnam Pro"],
+                        "label-bold": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "body-md": ["Be Vietnam Pro"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-bold": ["14px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .pixel-dots {
+            background-image: radial-gradient(#28285b 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .brutalist-shadow {
+            box-shadow: -8px 8px 0px 0px #28285b;
+        }
+        .brutalist-shadow-sm {
+            box-shadow: -4px 4px 0px 0px #28285b;
+        }
+        .option-shadow {
+            box-shadow: -6px 6px 0px 0px #28285b;
+        }
+        .option-shadow-hover {
+            box-shadow: -8px 8px 0px 0px #28285b;
+        }
+        .option-shadow-active {
+            box-shadow: -2px 2px 0px 0px #28285b;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- Top Navigation -->
+    <header class="bg-[#F9D423] text-[#28285b] font-['Space_Grotesk'] font-black uppercase tracking-tighter border-b-4 border-[#28285b] shadow-[0_4px_0_0_#28285b] flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50">
+        <div class="text-2xl font-black text-[#28285b] italic flex items-center">
+            <img src="image/logo-LobbyCon.png" alt="Lobby CON" id="logoAdmin" class="h-[7rem] object-contain cursor-pointer select-none" />
+        </div>
+        <div class="flex items-center gap-4">
+            <div id="playerNameHeader" class="hidden md:block font-bold text-sm bg-white/20 px-3 py-1 border-2 border-navy-custom">
+                JOGADOR: CONVIDADO
+            </div>
+            <span class="material-symbols-outlined text-3xl" data-icon="account_circle">account_circle</span>
+        </div>
+    </header>
+
+    <!-- SCREEN 1: CADASTRO -->
+    <main id="screen-cadastro" class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop relative overflow-hidden">
+        <div class="w-full max-w-lg relative">
+            <div class="absolute -top-6 -left-6 bg-tertiary-container text-on-tertiary-fixed font-headline-md px-6 py-2 border-4 border-navy-custom brutalist-shadow-sm -rotate-3 z-10">O QUIZ VAI COMEÇAR!</div>
+            
+            <div class="bg-white border-4 border-navy-custom brutalist-shadow p-8 md:p-12 relative overflow-hidden">
+                <div class="mb-10">
+                    <h1 class="font-headline-lg text-headline-lg text-navy-custom uppercase mb-2">ENTRE NO JOGO</h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant">Cadastre-se para descobrir que tipo de player você é.</p>
+                </div>
+                
+                <form id="cadastroForm" class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2" for="name"><span class="material-symbols-outlined">person</span> NOME DO JOGADOR</label>
+                        <input class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30" id="name" name="name" placeholder="ex: FoxMaster_99" required type="text"/>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2" for="email"><span class="material-symbols-outlined">alternate_email</span> ENDEREÇO DE E-MAIL</label>
+                        <input class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30" id="email" name="email" placeholder="seu@email.com" required type="email"/>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2" for="sector"><span class="material-symbols-outlined">corporate_fare</span> SETOR</label>
+                            <input class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30" id="sector" name="sector" placeholder="ex: Marketing" required type="text"/>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2" for="unit"><span class="material-symbols-outlined">location_on</span> UNIDADE</label>
+                            <input class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30" id="unit" name="unit" placeholder="ex: Central" required type="text"/>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-[#F9D423] text-navy-custom font-headline-md uppercase py-5 px-8 border-4 border-navy-custom brutalist-shadow-sm hover:translate-y-1 hover:translate-x-1 hover:shadow-none active:translate-y-2 active:translate-x-2 transition-all flex justify-center items-center gap-3">INICIAR QUIZ <span class="material-symbols-outlined text-3xl">play_arrow</span></button>
+                    </div>
+                </form>
+                <p class="mt-8 text-center text-xs font-label-bold text-on-surface-variant/60 uppercase tracking-widest">Ao entrar, você concorda com as regras do lobby.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- SCREEN 2: QUIZ -->
+    <main id="screen-quiz" class="hidden flex-grow container mx-auto px-4 py-12 flex-col items-center justify-center relative">
+        <div class="w-full max-w-2xl bg-white border-4 border-[#28285b] brutalist-shadow p-8 md:p-12 relative mx-auto mt-8">
+            <div class="mb-8">
+                <span id="questionIndicator" class="inline-block bg-[#006b5f] text-white font-headline-md text-headline-md px-4 py-1 border-2 border-[#28285b] brutalist-shadow-sm mb-6">
+                    PERGUNTA 1/10
+                </span>
+                <h1 id="questionText" class="font-headline-lg text-headline-lg text-[#28285b] leading-tight">
+                    Surgiu um tempinho livre do nada... o que você faz?
+                </h1>
+            </div>
+            
+            <div id="optionsContainer" class="flex flex-col gap-4">
+                <!-- Opções injetadas via JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- SCREEN 3: RESULTADO -->
+    <main id="screen-resultado" class="hidden flex-grow container mx-auto px-4 py-12 flex-col items-center justify-center relative">
+        <div class="w-full max-w-3xl relative mx-auto mt-8 text-center">
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-tertiary-container text-on-tertiary-fixed font-headline-md px-6 py-2 border-4 border-navy-custom brutalist-shadow-sm rotate-2 z-10">GAME OVER / WIN!</div>
+            
+            <div class="bg-white border-4 border-[#28285b] brutalist-shadow p-8 md:p-16 relative overflow-hidden flex flex-col items-center">
+                <h2 class="font-headline-md text-secondary uppercase mb-2">SEU PERFIL É:</h2>
+                <h1 id="resultTitle" class="font-headline-xl text-5xl md:text-7xl text-[#28285b] mb-8 uppercase text-center bg-[#F9D423] inline-block px-4 py-2 border-4 border-[#28285b] brutalist-shadow-sm">
+                    PLAYER COMPETITIVO
+                </h1>
+                
+                <div id="resultDescription" class="font-body-lg text-body-lg text-on-surface-variant text-left space-y-4 mb-8">
+                    <!-- Descrição injetada via JS -->
+                </div>
+
+                <div class="bg-tertiary text-white border-4 border-[#28285b] brutalist-shadow-sm p-6 w-full text-left">
+                    <h3 class="font-label-bold uppercase text-tertiary-container mb-2">SEU LEMA:</h3>
+                    <p id="resultLema" class="font-headline-md text-xl md:text-2xl italic">“Se é pra jogar, é pra ganhar.”</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <footer id="footerRestart" class="hidden fixed bottom-0 left-0 w-full z-50 flex justify-center items-center px-4 py-6 bg-white shadow-[0px_-4px_0px_0px_rgba(40,40,91,1)]">
+        <button onclick="restartQuiz()" class="flex items-center justify-center bg-[#F9D423] text-[#28285b] border-4 border-[#28285b] shadow-[4px_4px_0px_0px_rgba(40,40,91,1)] px-12 py-4 font-['Space_Grotesk'] font-extrabold uppercase hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all active:scale-95 duration-75 text-xl tracking-wider">
+            <span class="material-symbols-outlined mr-3">replay</span>
+            Responder novamente
+        </button>
+    </footer>
+
+    <!-- Spacer for fixed footer -->
+    <div id="footerSpacer" class="hidden h-32"></div>
+
+    <!-- ADMIN MODAL -->
+    <div id="adminModal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm items-center justify-center p-4">
+        <div class="bg-white border-4 border-navy-custom brutalist-shadow w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
+            <div class="bg-navy-custom text-white p-4 flex justify-between items-center">
+                <h2 class="font-headline-md uppercase">Painel Administrativo - Participantes</h2>
+                <button onclick="toggleAdminModal()" class="material-symbols-outlined text-3xl hover:text-primary-container transition-colors">close</button>
+            </div>
+            
+            <div class="p-6 flex-grow overflow-auto">
+                <div class="flex gap-4 mb-6">
+                    <button onclick="downloadCSV()" class="bg-[#F9D423] text-navy-custom font-label-bold uppercase py-2 px-4 border-2 border-navy-custom brutalist-shadow-sm flex items-center gap-2 hover:translate-y-1 transition-all">
+                        <span class="material-symbols-outlined">download</span> Baixar Excel (CSV)
+                    </button>
+                    <button onclick="clearDatabase()" class="bg-error text-white font-label-bold uppercase py-2 px-4 border-2 border-navy-custom brutalist-shadow-sm flex items-center gap-2 hover:translate-y-1 transition-all ml-auto">
+                        <span class="material-symbols-outlined">delete</span> Limpar Dados
+                    </button>
+                </div>
+                
+                <div class="border-2 border-navy-custom overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-surface-container-highest border-b-2 border-navy-custom">
+                            <tr>
+                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">Data</th>
+                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">Nome</th>
+                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">E-mail</th>
+                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">Setor/Unidade</th>
+                                <th class="p-3 font-label-bold text-xs uppercase">Resultado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody" class="divide-y divide-navy-custom/20 text-sm">
+                            <!-- Dados injetados via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Paginação -->
+                <div class="mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div id="adminTotalCount" class="font-label-bold text-xs uppercase text-on-surface-variant/60">
+                        Total: 0 participantes
+                    </div>
+                    <div id="adminPagination" class="flex items-center gap-2">
+                        <!-- Botões de página injetados via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz Data
+        const questions = [
+            {
+                q: "Surgiu um tempinho livre do nada… o que você faz?",
+                options: [
+                    { key: "A", text: "Vou fazer um treinão na academia ou uma trilha de bike." },
+                    { key: "B", text: "Aproveito pra dormir o máximo que der." },
+                    { key: "C", text: "Vou atrás de fazer algo novo." },
+                    { key: "D", text: "Vou ler algo ou estudar." }
+                ]
+            },
+            {
+                q: "Qual personagem você seria?",
+                options: [
+                    { key: "A", text: "Homem de ferro: confiante, direto e resolve na ação" },
+                    { key: "B", text: "Homem-Aranha: leve, divertido e se adapta a tudo" },
+                    { key: "C", text: "Lara Croft: aventureira e movida pela descoberta" },
+                    { key: "D", text: "Hermione Granger: analítica, estratégica e observadora" }
+                ]
+            },
+            {
+                q: "Você prefere:",
+                options: [
+                    { key: "A", text: "Ver seu time ganhar a Libertadores… mas cair pra Série B no mesmo ano." },
+                    { key: "B", text: "Ver a seleção Brasileira ser campeã da Copa do Mundo… mas seu time nunca mais ganhar nada." },
+                    { key: "C", text: "Seu time ganhar tudo por 1 ano… e depois ficar 10 anos sem títulos." },
+                    { key: "D", text: "Ver seu time ganhar o mundial.... mas seu rival ganhar 3 libertadores seguidas." }
+                ]
+            },
+            {
+                q: "Jogando Mário Kart, o que seria “menos pior” para você?",
+                options: [
+                    { key: "A", text: "Ser atingido por um casco azul sempre." },
+                    { key: "B", text: "Escorregar em banana na última curva." },
+                    { key: "C", text: "Cair do mapa e ser resgatado toda hora." },
+                    { key: "D", text: "Errar o atalho decisivo do jogo." }
+                ]
+            },
+            {
+                q: "Quando você chega em um evento, como você age?",
+                options: [
+                    { key: "A", text: "Já pego minha bebida e vou pra onde está tocando a música." },
+                    { key: "B", text: "Vou circulando e sentindo o clima." },
+                    { key: "C", text: "Experimento todas as comidas e bebidas que não conheço." },
+                    { key: "D", text: "Observo todo o local antes de escolher onde ficar." }
+                ]
+            },
+            {
+                q: "Se você pudesse desbloquear um poder especial agora, qual escolheria?",
+                options: [
+                    { key: "A", text: "Invisibilidade." },
+                    { key: "B", text: "Força absurda." },
+                    { key: "C", text: "Ler pensamentos." },
+                    { key: "D", text: "Voar." }
+                ]
+            },
+            {
+                q: "Seu maior medo em um jogo é:",
+                options: [
+                    { key: "A", text: "Perder por muito pouco." },
+                    { key: "B", text: "Ficar entediado." },
+                    { key: "C", text: "Não completar todas as missões de um mapa." },
+                    { key: "D", text: "Tomar uma decisão ruim e estragar tudo." }
+                ]
+            },
+            {
+                q: "O que faz você pensar “valeu muito a pena”?",
+                options: [
+                    { key: "A", text: "Qualquer atividade que passe a sensação de adrenalina." },
+                    { key: "B", text: "Um encontro com amigos de infância." },
+                    { key: "C", text: "Viajar para algum lugar inédito." },
+                    { key: "D", text: "Ter conseguido resolver um super problema." }
+                ]
+            },
+            {
+                q: "Qual desses tipos de jogo combina mais com você?",
+                options: [
+                    { key: "A", text: "Consoles clássicos e jogos retrô (Nintendo, Mega Drive, etc.)" },
+                    { key: "B", text: "Jogos online ou no PC, competitivos e em tempo real" },
+                    { key: "C", text: "Jogos de carta ou dinâmicas diferentes (tipo Magic, Uno, etc.)" },
+                    { key: "D", text: "Jogos de tabuleiro e estratégia (tipo War, etc.)" }
+                ]
+            },
+            {
+                q: "Em uma maratona de séries ou filmes, você é quem:",
+                options: [
+                    { key: "A", text: "Já escolhe algo intenso e prende até o fim" },
+                    { key: "B", text: "Coloca algo leve só pra relaxar e curtir" },
+                    { key: "C", text: "Vai atrás de algo diferente que nunca viu" },
+                    { key: "D", text: "Pesquisa bem antes pra escolher a melhor opção" }
+                ]
+            }
+        ];
+
+        const resultsData = {
+            "A": {
+                title: "PLAYER COMPETITIVO",
+                description: `
+                    <p>Você não entra pra brincar, entra pra ganhar.</p>
+                    <p>Desafio te move, a adrenalina te empolga e você gosta de sentir que está no controle da situação.</p>
+                    <p>Você prefere agir rápido, testar seus limites e ir direto ao ponto. Se tem disputa, você está dentro.</p>
+                    <p><strong>No LobbyCon:</strong> Prepare-se para ir atrás das experiências mais intensas. Você não vai só participar… vai querer se destacar.</p>`,
+                lema: "“Se é pra jogar, é pra ganhar.”"
+            },
+            "B": {
+                title: "PLAYER CASUAL",
+                description: `
+                    <p>Pra você, o mais importante é a experiência.</p>
+                    <p>O clima, as pessoas, os momentos — é isso que faz tudo valer a pena.</p>
+                    <p>Você não precisa de pressão para se divertir. Sabe aproveitar o momento como ninguém.</p>
+                    <p><strong>No LobbyCon:</strong> você vai curtir cada detalhe, conhecer gente nova e aproveitar o evento do seu jeito: leve e sem pressa.</p>`,
+                lema: "“Sem pressão. Só vem.”"
+            },
+            "C": {
+                title: "PLAYER EXPLORADOR",
+                description: `
+                    <p>Você não se contenta com o óbvio.</p>
+                    <p>Gosta de descobrir, testar, experimentar e ir além do que todo mundo vê.</p>
+                    <p>O novo te atrai, e você está sempre em busca de algo diferente.</p>
+                    <p><strong>No LobbyCon:</strong> prepare-se pra explorar tudo: experiências, espaços, possibilidades. Sempre vai ter algo que só você percebe.</p>`,
+                lema: "“E se a gente tentar algo diferente?”"
+            },
+            "D": {
+                title: "PLAYER ESTRATEGISTA",
+                description: `
+                    <p>Você observa, analisa e só então age.</p>
+                    <p>Prefere entender o cenário antes de tomar decisões, e isso te coloca sempre um passo à frente.</p>
+                    <p>Desafios te motivam, mas vencer com inteligência é o que realmente importa.</p>
+                    <p><strong>No LobbyCon:</strong> você vai enxergar além do óbvio, aproveitar melhor as oportunidades e jogar com visão.</p>`,
+                lema: "“Tudo faz parte do plano.”"
+            }
+        };
+
+        // State variables
+        let currentQuestionIndex = 0;
+        let answers = {
+            "A": 0,
+            "B": 0,
+            "C": 0,
+            "D": 0
+        };
+        let playerName = "";
+        let playerEmail = "";
+        let playerSector = "";
+        let playerUnit = "";
+        
+        // URL do Google Apps Script (Cole aqui a URL que você copiou do Google após publicar o script)
+        const GOOGLE_SHEETS_URL = "COLE_SUA_URL_AQUI";
+
+        // Elements
+        const formCadastro = document.getElementById("cadastroForm");
+        const screenCadastro = document.getElementById("screen-cadastro");
+        const screenQuiz = document.getElementById("screen-quiz");
+        const screenResultado = document.getElementById("screen-resultado");
+        
+        const questionIndicator = document.getElementById("questionIndicator");
+        const questionText = document.getElementById("questionText");
+        const optionsContainer = document.getElementById("optionsContainer");
+        const playerNameHeader = document.getElementById("playerNameHeader");
+        const footerRestart = document.getElementById("footerRestart");
+        const footerSpacer = document.getElementById("footerSpacer");
+
+        // Color mapping for options (todas iguais agora)
+        const optionColors = ["bg-white", "bg-white", "bg-white", "bg-white"];
+        const optionHoverColors = ["hover:bg-[#e8e8e8]", "hover:bg-[#e8e8e8]", "hover:bg-[#e8e8e8]", "hover:bg-[#e8e8e8]"];
+
+        // Função de transição com GSAP
+        function transitionTo(current, next) {
+            gsap.to(current, {
+                opacity: 0,
+                y: -30,
+                duration: 0.5,
+                ease: "power3.in",
+                onComplete: () => {
+                    current.classList.add("hidden");
+                    current.classList.remove("flex");
+                    
+                    next.classList.remove("hidden");
+                    next.classList.add("flex");
+                    
+                    gsap.fromTo(next, 
+                        { opacity: 0, y: 30 },
+                        { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
+                    );
+                }
+            });
+        }
+
+        // Enviar para Google Sheets (Remoto) e LocalStorage (Local)
+        async function saveToGoogleSheets(data) {
+            // 1. Salvar no LocalStorage (Sempre funciona offline)
+            saveToLocalStorage(data);
+
+            // 2. Tentar salvar no Google Sheets se configurado
+            if (!GOOGLE_SHEETS_URL || GOOGLE_SHEETS_URL === "SUA_URL_AQUI") {
+                console.warn("Google Sheets URL não configurada. Dados salvos apenas localmente.");
+                return;
+            }
+            try {
+                await fetch(GOOGLE_SHEETS_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data)
+                });
+            } catch (error) {
+                console.error("Erro ao salvar no Google Sheets:", error);
+            }
+        }
+
+        // --- SISTEMA DE ARMAZENAMENTO LOCAL ---
+        function saveToLocalStorage(newData) {
+            let participants = JSON.parse(localStorage.getItem('quiz_participants') || '[]');
+            
+            // Busca se o e-mail já existe (Chave Única)
+            const existingIndex = participants.findIndex(p => p.email.toLowerCase() === newData.email.toLowerCase());
+            
+            if (existingIndex !== -1) {
+                // Se já existe, atualiza os dados mantendo a data original se necessário
+                // Mas prioriza o novo status e resultado
+                participants[existingIndex] = { 
+                    ...participants[existingIndex], 
+                    ...newData,
+                    data: participants[existingIndex].data // Mantém a data do primeiro cadastro
+                };
+            } else {
+                // Se não existe, adiciona novo
+                participants.push(newData);
+            }
+            
+            localStorage.setItem('quiz_participants', JSON.stringify(participants));
+        }
+
+        // --- SISTEMA ADMIN (6 CLIQUES) ---
+        let logoClickCount = 0;
+        let logoClickTimer;
+        let adminCurrentPage = 1;
+        const adminPageSize = 20;
+        const logoAdmin = document.getElementById('logoAdmin');
+
+        logoAdmin.addEventListener('click', () => {
+            logoClickCount++;
+            clearTimeout(logoClickTimer);
+            
+            if (logoClickCount === 6) {
+                adminCurrentPage = 1; // Reseta para a primeira página ao abrir
+                toggleAdminModal();
+                logoClickCount = 0;
+            }
+            
+            logoClickTimer = setTimeout(() => {
+                logoClickCount = 0;
+            }, 3000);
+        });
+
+        function toggleAdminModal() {
+            const modal = document.getElementById('adminModal');
+            const isHidden = modal.classList.contains('hidden');
+            
+            if (isHidden) {
+                renderAdminTable();
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function renderAdminTable() {
+            const participants = JSON.parse(localStorage.getItem('quiz_participants') || '[]');
+            const tbody = document.getElementById('adminTableBody');
+            const totalCountEl = document.getElementById('adminTotalCount');
+            const paginationEl = document.getElementById('adminPagination');
+            
+            tbody.innerHTML = '';
+            
+            // Inverter para mostrar os mais recentes primeiro
+            const allParticipants = [...participants].reverse();
+            const total = allParticipants.length;
+            totalCountEl.textContent = `Total: ${total} participantes`;
+
+            const totalPages = Math.ceil(total / adminPageSize);
+            if (adminCurrentPage > totalPages && totalPages > 0) adminCurrentPage = totalPages;
+
+            // Fatiar os dados para a página atual
+            const start = (adminCurrentPage - 1) * adminPageSize;
+            const end = start + adminPageSize;
+            const pagedData = allParticipants.slice(start, end);
+            
+            pagedData.forEach(p => {
+                const row = document.createElement('tr');
+                row.className = "hover:bg-primary-container/10 transition-colors";
+                row.innerHTML = `
+                    <td class="p-3 text-xs border-r border-navy-custom/20 whitespace-nowrap">${p.data || '-'}</td>
+                    <td class="p-3 font-bold border-r border-navy-custom/20">${p.nome}</td>
+                    <td class="p-3 text-xs border-r border-navy-custom/20">${p.email}</td>
+                    <td class="p-3 text-xs border-r border-navy-custom/20">${p.setor} / ${p.unidade}</td>
+                    <td class="p-3"><span class="px-2 py-1 bg-navy-custom text-white text-[10px] rounded uppercase font-bold">${p.resultado || 'Pendente'}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Renderizar Paginação
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const paginationEl = document.getElementById('adminPagination');
+            paginationEl.innerHTML = '';
+
+            if (totalPages <= 1) return;
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.onclick = () => {
+                    adminCurrentPage = i;
+                    renderAdminTable();
+                };
+                
+                const isActive = i === adminCurrentPage;
+                btn.className = `w-10 h-10 border-2 border-navy-custom font-headline-md transition-all ${
+                    isActive 
+                    ? 'bg-[#F9D423] text-navy-custom brutalist-shadow-sm' 
+                    : 'bg-white text-navy-custom hover:bg-surface-container'
+                }`;
+                
+                paginationEl.appendChild(btn);
+            }
+        }
+
+        function downloadCSV() {
+            const participants = JSON.parse(localStorage.getItem('quiz_participants') || '[]');
+            if (participants.length === 0) {
+                alert("Nenhum dado para exportar.");
+                return;
+            }
+            
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // BOM para Excel entender acentos
+            csvContent += "Data;Nome;Email;Setor;Unidade;Resultado;Status\n";
+            
+            participants.forEach(p => {
+                const row = [
+                    p.data || '',
+                    p.nome,
+                    p.email,
+                    p.setor,
+                    p.unidade,
+                    p.resultado || '',
+                    p.status
+                ].map(val => `"${val}"`).join(";");
+                csvContent += row + "\n";
+            });
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `participantes_quiz_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function clearDatabase() {
+            if (confirm("TEM CERTEZA? Isso apagará TODOS os dados salvos localmente e não pode ser desfeito.")) {
+                localStorage.removeItem('quiz_participants');
+                renderAdminTable();
+            }
+        }
+
+        // Init Form
+        formCadastro.addEventListener("submit", function(e) {
+            e.preventDefault();
+            playerName = document.getElementById("name").value.trim() || "JOGADOR";
+            playerEmail = document.getElementById("email").value.trim();
+            playerSector = document.getElementById("sector").value.trim();
+            playerUnit = document.getElementById("unit").value.trim();
+
+            playerNameHeader.textContent = `JOGADOR: ${playerName.toUpperCase()}`;
+            
+            // Envia os dados para o Google Sheets em tempo real
+            saveToGoogleSheets({
+                nome: playerName,
+                email: playerEmail,
+                setor: playerSector,
+                unidade: playerUnit,
+                data: new Date().toLocaleString("pt-BR"),
+                status: "Iniciou o Quiz"
+            });
+
+            // Switch screen com animação
+            document.body.classList.add("pixel-dots");
+            document.body.classList.replace("bg-background", "bg-[#F9D423]");
+            
+            transitionTo(screenCadastro, screenQuiz);
+            
+            // Load first question
+            loadQuestion();
+        });
+
+        function loadQuestion() {
+            if(currentQuestionIndex >= questions.length) {
+                showResult();
+                return;
+            }
+
+            const qData = questions[currentQuestionIndex];
+            questionIndicator.textContent = `PERGUNTA ${currentQuestionIndex + 1}/${questions.length}`;
+            questionText.textContent = qData.q;
+            
+            // Clear options
+            optionsContainer.innerHTML = "";
+            
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.className = `group w-full text-left ${optionColors[idx]} text-[#28285b] p-6 border-4 border-[#28285b] option-shadow hover:translate-x-[2px] hover:translate-y-[-2px] hover:option-shadow-hover ${optionHoverColors[idx]} active:translate-x-[-4px] active:translate-y-[4px] active:option-shadow-active active:bg-[#F9D423] transition-all duration-150 flex items-center gap-4`;
+                btn.onclick = () => selectOption(opt.key);
+                
+                btn.innerHTML = `
+                    <span class="w-10 h-10 shrink-0 flex items-center justify-center bg-white text-[#28285b] border-2 border-[#28285b] font-headline-md text-headline-md font-bold group-hover:bg-[#F9D423]">${opt.key}</span>
+                    <span class="font-body-lg text-body-lg font-semibold block">${opt.text}</span>
+                `;
+                
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(key) {
+            answers[key]++;
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        function showResult() {
+            // Calculate winner
+            let maxScore = -1;
+            let resultKey = "A";
+
+            for(const key of ["A", "B", "C", "D"]) {
+                if(answers[key] > maxScore) {
+                    maxScore = answers[key];
+                    resultKey = key;
+                }
+            }
+
+            const res = resultsData[resultKey];
+            document.getElementById("resultTitle").textContent = res.title;
+            document.getElementById("resultDescription").innerHTML = res.description;
+            document.getElementById("resultLema").textContent = res.lema;
+
+            // Envia o resultado final para o Google Sheets
+            saveToGoogleSheets({
+                nome: playerName,
+                email: playerEmail,
+                setor: playerSector,
+                unidade: playerUnit,
+                resultado: res.title,
+                status: "Finalizou o Quiz"
+            });
+
+            transitionTo(screenQuiz, screenResultado);
+            footerRestart.classList.remove("hidden");
+            footerSpacer.classList.remove("hidden");
+            
+            // Animando o footer
+            gsap.fromTo(footerRestart, {y: 100}, {y: 0, duration: 0.5, ease: "back.out(1.7)"});
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            answers = { "A": 0, "B": 0, "C": 0, "D": 0 };
+            
+            footerRestart.classList.add("hidden");
+            footerSpacer.classList.add("hidden");
+            
+            transitionTo(screenResultado, screenQuiz);
+            loadQuestion();
+        }
+
+    </script>
+</body>
+</html>
