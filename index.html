@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="light">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lobby CON - Quiz Interativo</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <!-- GSAP para Animações Premium -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -88,12 +92,12 @@
                         "body-md": ["Be Vietnam Pro"]
                     },
                     "fontSize": {
-                        "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                        "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
-                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "label-bold": ["14px", {"lineHeight": "1.2", "fontWeight": "700"}],
-                        "headline-lg": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
-                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                        "headline-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
                     }
                 },
             },
@@ -104,35 +108,45 @@
             background-image: radial-gradient(#28285b 1px, transparent 1px);
             background-size: 24px 24px;
         }
+
         .brutalist-shadow {
             box-shadow: -8px 8px 0px 0px #28285b;
         }
+
         .brutalist-shadow-sm {
             box-shadow: -4px 4px 0px 0px #28285b;
         }
+
         .option-shadow {
             box-shadow: -6px 6px 0px 0px #28285b;
         }
+
         .option-shadow-hover {
             box-shadow: -8px 8px 0px 0px #28285b;
         }
+
         .option-shadow-active {
             box-shadow: -2px 2px 0px 0px #28285b;
         }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
     </style>
 </head>
+
 <body class="bg-background font-body-md text-on-background min-h-screen flex flex-col transition-colors duration-300">
 
     <!-- Top Navigation -->
-    <header class="bg-[#F9D423] text-[#28285b] font-['Space_Grotesk'] font-black uppercase tracking-tighter border-b-4 border-[#28285b] shadow-[0_4px_0_0_#28285b] flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50">
+    <header
+        class="bg-[#F9D423] text-[#28285b] font-['Space_Grotesk'] font-black uppercase tracking-tighter border-b-4 border-[#28285b] shadow-[0_4px_0_0_#28285b] flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50">
         <div class="text-2xl font-black text-[#28285b] italic flex items-center">
-            <img src="image/logo-LobbyCon.png" alt="Lobby CON" id="logoAdmin" class="h-[7rem] object-contain cursor-pointer select-none" />
+            <img src="image/logo-LobbyCon.png" alt="Lobby CON" id="logoAdmin"
+                class="h-[7rem] object-contain cursor-pointer select-none" />
         </div>
         <div class="flex items-center gap-4">
-            <div id="playerNameHeader" class="hidden md:block font-bold text-sm bg-white/20 px-3 py-1 border-2 border-navy-custom">
+            <div id="playerNameHeader"
+                class="hidden md:block font-bold text-sm bg-white/20 px-3 py-1 border-2 border-navy-custom">
                 JOGADOR: CONVIDADO
             </div>
             <span class="material-symbols-outlined text-3xl" data-icon="account_circle">account_circle</span>
@@ -140,60 +154,88 @@
     </header>
 
     <!-- SCREEN 1: CADASTRO -->
-    <main id="screen-cadastro" class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop relative overflow-hidden">
+    <main id="screen-cadastro"
+        class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop relative overflow-hidden">
         <div class="w-full max-w-lg relative">
-            <div class="absolute -top-6 -left-6 bg-tertiary-container text-on-tertiary-fixed font-headline-md px-6 py-2 border-4 border-navy-custom brutalist-shadow-sm -rotate-3 z-10">O QUIZ VAI COMEÇAR!</div>
-            
+            <div
+                class="absolute -top-6 -left-6 bg-tertiary-container text-on-tertiary-fixed font-headline-md px-6 py-2 border-4 border-navy-custom brutalist-shadow-sm -rotate-3 z-10">
+                O QUIZ VAI COMEÇAR!</div>
+
             <div class="bg-white border-4 border-navy-custom brutalist-shadow p-8 md:p-12 relative overflow-hidden">
                 <div class="mb-10">
                     <h1 class="font-headline-lg text-headline-lg text-navy-custom uppercase mb-2">ENTRE NO JOGO</h1>
-                    <p class="font-body-lg text-body-lg text-on-surface-variant">Cadastre-se para descobrir que tipo de player você é.</p>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant">Cadastre-se para descobrir que tipo de
+                        player você é.</p>
                 </div>
-                
+
                 <form id="cadastroForm" class="space-y-6">
                     <div class="space-y-2">
-                        <label class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2" for="name"><span class="material-symbols-outlined">person</span> NOME DO JOGADOR</label>
-                        <input class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30" id="name" name="name" placeholder="ex: FoxMaster_99" required type="text"/>
+                        <label
+                            class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2"
+                            for="name"><span class="material-symbols-outlined">person</span> NOME DO JOGADOR</label>
+                        <input
+                            class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30"
+                            id="name" name="name" placeholder="ex: FoxMaster_99" required type="text" />
                     </div>
-                    
+
                     <div class="space-y-2">
-                        <label class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2" for="email"><span class="material-symbols-outlined">alternate_email</span> ENDEREÇO DE E-MAIL</label>
-                        <input class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30" id="email" name="email" placeholder="seu@email.com" required type="email"/>
+                        <label
+                            class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2"
+                            for="email"><span class="material-symbols-outlined">alternate_email</span> ENDEREÇO DE
+                            E-MAIL</label>
+                        <input
+                            class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30"
+                            id="email" name="email" placeholder="seu@email.com" required type="email" />
                     </div>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-2">
-                            <label class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2" for="sector"><span class="material-symbols-outlined">corporate_fare</span> SETOR</label>
-                            <input class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30" id="sector" name="sector" placeholder="ex: Marketing" required type="text"/>
+                            <label
+                                class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2"
+                                for="sector"><span class="material-symbols-outlined">corporate_fare</span> SETOR</label>
+                            <input
+                                class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30"
+                                id="sector" name="sector" placeholder="ex: Marketing" required type="text" />
                         </div>
-                        
+
                         <div class="space-y-2">
-                            <label class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2" for="unit"><span class="material-symbols-outlined">location_on</span> UNIDADE</label>
-                            <input class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30" id="unit" name="unit" placeholder="ex: Central" required type="text"/>
+                            <label
+                                class="font-label-bold text-label-bold uppercase text-navy-custom flex items-center gap-2"
+                                for="unit"><span class="material-symbols-outlined">location_on</span> UNIDADE</label>
+                            <input
+                                class="w-full bg-white border-4 border-navy-custom p-4 font-headline-md text-navy-custom focus:ring-0 focus:outline-none focus:bg-primary-container transition-colors brutalist-shadow-sm placeholder:opacity-30"
+                                id="unit" name="unit" placeholder="ex: Central" required type="text" />
                         </div>
                     </div>
-                    
+
                     <div class="pt-4">
-                        <button type="submit" class="w-full bg-[#F9D423] text-navy-custom font-headline-md uppercase py-5 px-8 border-4 border-navy-custom brutalist-shadow-sm hover:translate-y-1 hover:translate-x-1 hover:shadow-none active:translate-y-2 active:translate-x-2 transition-all flex justify-center items-center gap-3">INICIAR QUIZ <span class="material-symbols-outlined text-3xl">play_arrow</span></button>
+                        <button type="submit"
+                            class="w-full bg-[#F9D423] text-navy-custom font-headline-md uppercase py-5 px-8 border-4 border-navy-custom brutalist-shadow-sm hover:translate-y-1 hover:translate-x-1 hover:shadow-none active:translate-y-2 active:translate-x-2 transition-all flex justify-center items-center gap-3">INICIAR
+                            QUIZ <span class="material-symbols-outlined text-3xl">play_arrow</span></button>
                     </div>
                 </form>
-                <p class="mt-8 text-center text-xs font-label-bold text-on-surface-variant/60 uppercase tracking-widest">Ao entrar, você concorda com as regras do lobby.</p>
+                <p
+                    class="mt-8 text-center text-xs font-label-bold text-on-surface-variant/60 uppercase tracking-widest">
+                    Ao entrar, você concorda com as regras do lobby.</p>
             </div>
         </div>
     </main>
 
     <!-- SCREEN 2: QUIZ -->
-    <main id="screen-quiz" class="hidden flex-grow container mx-auto px-4 py-12 flex-col items-center justify-center relative">
-        <div class="w-full max-w-2xl bg-white border-4 border-[#28285b] brutalist-shadow p-8 md:p-12 relative mx-auto mt-8">
+    <main id="screen-quiz"
+        class="hidden flex-grow container mx-auto px-4 py-12 flex-col items-center justify-center relative">
+        <div
+            class="w-full max-w-2xl bg-white border-4 border-[#28285b] brutalist-shadow p-8 md:p-12 relative mx-auto mt-8">
             <div class="mb-8">
-                <span id="questionIndicator" class="inline-block bg-[#006b5f] text-white font-headline-md text-headline-md px-4 py-1 border-2 border-[#28285b] brutalist-shadow-sm mb-6">
+                <span id="questionIndicator"
+                    class="inline-block bg-[#006b5f] text-white font-headline-md text-headline-md px-4 py-1 border-2 border-[#28285b] brutalist-shadow-sm mb-6">
                     PERGUNTA 1/10
                 </span>
                 <h1 id="questionText" class="font-headline-lg text-headline-lg text-[#28285b] leading-tight">
                     Surgiu um tempinho livre do nada... o que você faz?
                 </h1>
             </div>
-            
+
             <div id="optionsContainer" class="flex flex-col gap-4">
                 <!-- Opções injetadas via JS -->
             </div>
@@ -201,31 +243,40 @@
     </main>
 
     <!-- SCREEN 3: RESULTADO -->
-    <main id="screen-resultado" class="hidden flex-grow container mx-auto px-4 py-12 flex-col items-center justify-center relative">
+    <main id="screen-resultado"
+        class="hidden flex-grow container mx-auto px-4 py-12 flex-col items-center justify-center relative">
         <div class="w-full max-w-3xl relative mx-auto mt-8 text-center">
-            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-tertiary-container text-on-tertiary-fixed font-headline-md px-6 py-2 border-4 border-navy-custom brutalist-shadow-sm rotate-2 z-10">GAME OVER / WIN!</div>
-            
-            <div class="bg-white border-4 border-[#28285b] brutalist-shadow p-8 md:p-16 relative overflow-hidden flex flex-col items-center">
+            <div
+                class="absolute -top-6 left-1/2 -translate-x-1/2 bg-tertiary-container text-on-tertiary-fixed font-headline-md px-6 py-2 border-4 border-navy-custom brutalist-shadow-sm rotate-2 z-10">
+                GAME OVER / WIN!</div>
+
+            <div
+                class="bg-white border-4 border-[#28285b] brutalist-shadow p-8 md:p-16 relative overflow-hidden flex flex-col items-center">
                 <h2 class="font-headline-md text-secondary uppercase mb-2">SEU PERFIL É:</h2>
-                <h1 id="resultTitle" class="font-headline-xl text-5xl md:text-7xl text-[#28285b] mb-8 uppercase text-center bg-[#F9D423] inline-block px-4 py-2 border-4 border-[#28285b] brutalist-shadow-sm">
+                <h1 id="resultTitle"
+                    class="font-headline-xl text-5xl md:text-7xl text-[#28285b] mb-8 uppercase text-center bg-[#F9D423] inline-block px-4 py-2 border-4 border-[#28285b] brutalist-shadow-sm">
                     PLAYER COMPETITIVO
                 </h1>
-                
-                <div id="resultDescription" class="font-body-lg text-body-lg text-on-surface-variant text-left space-y-4 mb-8">
+
+                <div id="resultDescription"
+                    class="font-body-lg text-body-lg text-on-surface-variant text-left space-y-4 mb-8">
                     <!-- Descrição injetada via JS -->
                 </div>
 
                 <div class="bg-tertiary text-white border-4 border-[#28285b] brutalist-shadow-sm p-6 w-full text-left">
                     <h3 class="font-label-bold uppercase text-tertiary-container mb-2">SEU LEMA:</h3>
-                    <p id="resultLema" class="font-headline-md text-xl md:text-2xl italic">“Se é pra jogar, é pra ganhar.”</p>
+                    <p id="resultLema" class="font-headline-md text-xl md:text-2xl italic">“Se é pra jogar, é pra
+                        ganhar.”</p>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Bottom Navigation -->
-    <footer id="footerRestart" class="hidden fixed bottom-0 left-0 w-full z-50 flex justify-center items-center px-4 py-6 bg-white shadow-[0px_-4px_0px_0px_rgba(40,40,91,1)]">
-        <button onclick="restartQuiz()" class="flex items-center justify-center bg-[#F9D423] text-[#28285b] border-4 border-[#28285b] shadow-[4px_4px_0px_0px_rgba(40,40,91,1)] px-12 py-4 font-['Space_Grotesk'] font-extrabold uppercase hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all active:scale-95 duration-75 text-xl tracking-wider">
+    <footer id="footerRestart"
+        class="hidden fixed bottom-0 left-0 w-full z-50 flex justify-center items-center px-4 py-6 bg-white shadow-[0px_-4px_0px_0px_rgba(40,40,91,1)]">
+        <button onclick="restartQuiz()"
+            class="flex items-center justify-center bg-[#F9D423] text-[#28285b] border-4 border-[#28285b] shadow-[4px_4px_0px_0px_rgba(40,40,91,1)] px-12 py-4 font-['Space_Grotesk'] font-extrabold uppercase hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all active:scale-95 duration-75 text-xl tracking-wider">
             <span class="material-symbols-outlined mr-3">replay</span>
             Responder novamente
         </button>
@@ -235,31 +286,40 @@
     <div id="footerSpacer" class="hidden h-32"></div>
 
     <!-- ADMIN MODAL -->
-    <div id="adminModal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm items-center justify-center p-4">
-        <div class="bg-white border-4 border-navy-custom brutalist-shadow w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
+    <div id="adminModal"
+        class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm items-center justify-center p-4">
+        <div
+            class="bg-white border-4 border-navy-custom brutalist-shadow w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
             <div class="bg-navy-custom text-white p-4 flex justify-between items-center">
                 <h2 class="font-headline-md uppercase">Painel Administrativo - Participantes</h2>
-                <button onclick="toggleAdminModal()" class="material-symbols-outlined text-3xl hover:text-primary-container transition-colors">close</button>
+                <button onclick="toggleAdminModal()"
+                    class="material-symbols-outlined text-3xl hover:text-primary-container transition-colors">close</button>
             </div>
-            
+
             <div class="p-6 flex-grow overflow-auto">
                 <div class="flex gap-4 mb-6">
-                    <button onclick="downloadCSV()" class="bg-[#F9D423] text-navy-custom font-label-bold uppercase py-2 px-4 border-2 border-navy-custom brutalist-shadow-sm flex items-center gap-2 hover:translate-y-1 transition-all">
+                    <button onclick="downloadCSV()"
+                        class="bg-[#F9D423] text-navy-custom font-label-bold uppercase py-2 px-4 border-2 border-navy-custom brutalist-shadow-sm flex items-center gap-2 hover:translate-y-1 transition-all">
                         <span class="material-symbols-outlined">download</span> Baixar Excel (CSV)
                     </button>
-                    <button onclick="clearDatabase()" class="bg-error text-white font-label-bold uppercase py-2 px-4 border-2 border-navy-custom brutalist-shadow-sm flex items-center gap-2 hover:translate-y-1 transition-all ml-auto">
+                    <button onclick="clearDatabase()"
+                        class="bg-error text-white font-label-bold uppercase py-2 px-4 border-2 border-navy-custom brutalist-shadow-sm flex items-center gap-2 hover:translate-y-1 transition-all ml-auto">
                         <span class="material-symbols-outlined">delete</span> Limpar Dados
                     </button>
                 </div>
-                
+
                 <div class="border-2 border-navy-custom overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-surface-container-highest border-b-2 border-navy-custom">
                             <tr>
-                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">Data</th>
-                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">Nome</th>
-                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">E-mail</th>
-                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">Setor/Unidade</th>
+                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">Data
+                                </th>
+                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">Nome
+                                </th>
+                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">E-mail
+                                </th>
+                                <th class="p-3 font-label-bold border-r-2 border-navy-custom text-xs uppercase">
+                                    Setor/Unidade</th>
                                 <th class="p-3 font-label-bold text-xs uppercase">Resultado</th>
                             </tr>
                         </thead>
@@ -268,7 +328,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Paginação -->
                 <div class="mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
                     <div id="adminTotalCount" class="font-label-bold text-xs uppercase text-on-surface-variant/60">
@@ -428,7 +488,7 @@
         let playerEmail = "";
         let playerSector = "";
         let playerUnit = "";
-        
+
         // URL do Google Apps Script (Cole aqui a URL que você copiou do Google após publicar o script)
         const GOOGLE_SHEETS_URL = "COLE_SUA_URL_AQUI";
 
@@ -437,7 +497,7 @@
         const screenCadastro = document.getElementById("screen-cadastro");
         const screenQuiz = document.getElementById("screen-quiz");
         const screenResultado = document.getElementById("screen-resultado");
-        
+
         const questionIndicator = document.getElementById("questionIndicator");
         const questionText = document.getElementById("questionText");
         const optionsContainer = document.getElementById("optionsContainer");
@@ -459,11 +519,11 @@
                 onComplete: () => {
                     current.classList.add("hidden");
                     current.classList.remove("flex");
-                    
+
                     next.classList.remove("hidden");
                     next.classList.add("flex");
-                    
-                    gsap.fromTo(next, 
+
+                    gsap.fromTo(next,
                         { opacity: 0, y: 30 },
                         { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }
                     );
@@ -498,15 +558,15 @@
         // --- SISTEMA DE ARMAZENAMENTO LOCAL ---
         function saveToLocalStorage(newData) {
             let participants = JSON.parse(localStorage.getItem('quiz_participants') || '[]');
-            
+
             // Busca se o e-mail já existe (Chave Única)
             const existingIndex = participants.findIndex(p => p.email.toLowerCase() === newData.email.toLowerCase());
-            
+
             if (existingIndex !== -1) {
                 // Se já existe, atualiza os dados mantendo a data original se necessário
                 // Mas prioriza o novo status e resultado
-                participants[existingIndex] = { 
-                    ...participants[existingIndex], 
+                participants[existingIndex] = {
+                    ...participants[existingIndex],
                     ...newData,
                     data: participants[existingIndex].data // Mantém a data do primeiro cadastro
                 };
@@ -514,7 +574,7 @@
                 // Se não existe, adiciona novo
                 participants.push(newData);
             }
-            
+
             localStorage.setItem('quiz_participants', JSON.stringify(participants));
         }
 
@@ -528,13 +588,13 @@
         logoAdmin.addEventListener('click', () => {
             logoClickCount++;
             clearTimeout(logoClickTimer);
-            
+
             if (logoClickCount === 6) {
                 adminCurrentPage = 1; // Reseta para a primeira página ao abrir
                 toggleAdminModal();
                 logoClickCount = 0;
             }
-            
+
             logoClickTimer = setTimeout(() => {
                 logoClickCount = 0;
             }, 3000);
@@ -543,7 +603,7 @@
         function toggleAdminModal() {
             const modal = document.getElementById('adminModal');
             const isHidden = modal.classList.contains('hidden');
-            
+
             if (isHidden) {
                 renderAdminTable();
                 modal.classList.remove('hidden');
@@ -559,9 +619,9 @@
             const tbody = document.getElementById('adminTableBody');
             const totalCountEl = document.getElementById('adminTotalCount');
             const paginationEl = document.getElementById('adminPagination');
-            
+
             tbody.innerHTML = '';
-            
+
             // Inverter para mostrar os mais recentes primeiro
             const allParticipants = [...participants].reverse();
             const total = allParticipants.length;
@@ -574,7 +634,7 @@
             const start = (adminCurrentPage - 1) * adminPageSize;
             const end = start + adminPageSize;
             const pagedData = allParticipants.slice(start, end);
-            
+
             pagedData.forEach(p => {
                 const row = document.createElement('tr');
                 row.className = "hover:bg-primary-container/10 transition-colors";
@@ -605,14 +665,13 @@
                     adminCurrentPage = i;
                     renderAdminTable();
                 };
-                
+
                 const isActive = i === adminCurrentPage;
-                btn.className = `w-10 h-10 border-2 border-navy-custom font-headline-md transition-all ${
-                    isActive 
-                    ? 'bg-[#F9D423] text-navy-custom brutalist-shadow-sm' 
-                    : 'bg-white text-navy-custom hover:bg-surface-container'
-                }`;
-                
+                btn.className = `w-10 h-10 border-2 border-navy-custom font-headline-md transition-all ${isActive
+                        ? 'bg-[#F9D423] text-navy-custom brutalist-shadow-sm'
+                        : 'bg-white text-navy-custom hover:bg-surface-container'
+                    }`;
+
                 paginationEl.appendChild(btn);
             }
         }
@@ -623,10 +682,10 @@
                 alert("Nenhum dado para exportar.");
                 return;
             }
-            
+
             let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // BOM para Excel entender acentos
             csvContent += "Data;Nome;Email;Setor;Unidade;Resultado;Status\n";
-            
+
             participants.forEach(p => {
                 const row = [
                     p.data || '',
@@ -639,7 +698,7 @@
                 ].map(val => `"${val}"`).join(";");
                 csvContent += row + "\n";
             });
-            
+
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
@@ -657,7 +716,7 @@
         }
 
         // Init Form
-        formCadastro.addEventListener("submit", function(e) {
+        formCadastro.addEventListener("submit", function (e) {
             e.preventDefault();
             playerName = document.getElementById("name").value.trim() || "JOGADOR";
             playerEmail = document.getElementById("email").value.trim();
@@ -665,7 +724,7 @@
             playerUnit = document.getElementById("unit").value.trim();
 
             playerNameHeader.textContent = `JOGADOR: ${playerName.toUpperCase()}`;
-            
+
             // Envia os dados para o Google Sheets em tempo real
             saveToGoogleSheets({
                 nome: playerName,
@@ -679,15 +738,15 @@
             // Switch screen com animação
             document.body.classList.add("pixel-dots");
             document.body.classList.replace("bg-background", "bg-[#F9D423]");
-            
+
             transitionTo(screenCadastro, screenQuiz);
-            
+
             // Load first question
             loadQuestion();
         });
 
         function loadQuestion() {
-            if(currentQuestionIndex >= questions.length) {
+            if (currentQuestionIndex >= questions.length) {
                 showResult();
                 return;
             }
@@ -695,20 +754,20 @@
             const qData = questions[currentQuestionIndex];
             questionIndicator.textContent = `PERGUNTA ${currentQuestionIndex + 1}/${questions.length}`;
             questionText.textContent = qData.q;
-            
+
             // Clear options
             optionsContainer.innerHTML = "";
-            
+
             qData.options.forEach((opt, idx) => {
                 const btn = document.createElement("button");
                 btn.className = `group w-full text-left ${optionColors[idx]} text-[#28285b] p-6 border-4 border-[#28285b] option-shadow hover:translate-x-[2px] hover:translate-y-[-2px] hover:option-shadow-hover ${optionHoverColors[idx]} active:translate-x-[-4px] active:translate-y-[4px] active:option-shadow-active active:bg-[#F9D423] transition-all duration-150 flex items-center gap-4`;
                 btn.onclick = () => selectOption(opt.key);
-                
+
                 btn.innerHTML = `
                     <span class="w-10 h-10 shrink-0 flex items-center justify-center bg-white text-[#28285b] border-2 border-[#28285b] font-headline-md text-headline-md font-bold group-hover:bg-[#F9D423]">${opt.key}</span>
                     <span class="font-body-lg text-body-lg font-semibold block">${opt.text}</span>
                 `;
-                
+
                 optionsContainer.appendChild(btn);
             });
         }
@@ -724,8 +783,8 @@
             let maxScore = -1;
             let resultKey = "A";
 
-            for(const key of ["A", "B", "C", "D"]) {
-                if(answers[key] > maxScore) {
+            for (const key of ["A", "B", "C", "D"]) {
+                if (answers[key] > maxScore) {
                     maxScore = answers[key];
                     resultKey = key;
                 }
@@ -749,22 +808,23 @@
             transitionTo(screenQuiz, screenResultado);
             footerRestart.classList.remove("hidden");
             footerSpacer.classList.remove("hidden");
-            
+
             // Animando o footer
-            gsap.fromTo(footerRestart, {y: 100}, {y: 0, duration: 0.5, ease: "back.out(1.7)"});
+            gsap.fromTo(footerRestart, { y: 100 }, { y: 0, duration: 0.5, ease: "back.out(1.7)" });
         }
 
         function restartQuiz() {
             currentQuestionIndex = 0;
             answers = { "A": 0, "B": 0, "C": 0, "D": 0 };
-            
+
             footerRestart.classList.add("hidden");
             footerSpacer.classList.add("hidden");
-            
+
             transitionTo(screenResultado, screenQuiz);
             loadQuestion();
         }
 
     </script>
 </body>
+
 </html>
