@@ -618,46 +618,70 @@
             }, 3000);
         });
 
-        function toggleAdminModal() {
+        let globalParticipants = []; // Armazena os dados do Supabase
+
+        async function toggleAdminModal() {
             const modal = document.getElementById('adminModal');
             const isHidden = modal.classList.contains('hidden');
 
             if (isHidden) {
-                renderAdminTable();
+                // Feedback visual de carregamento
+                const tbody = document.getElementById('adminTableBody');
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center">🔄 Sincronizando com Supabase...</td></tr>';
+                
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                
+                await fetchGlobalParticipants();
             } else {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
             }
         }
 
+        async function fetchGlobalParticipants() {
+            try {
+                const { data, error } = await supabaseInstance
+                    .from('participants')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                globalParticipants = data;
+                renderAdminTable();
+            } catch (err) {
+                console.error("Erro ao sincronizar dados:", err);
+                // Fallback para local se estiver sem internet
+                globalParticipants = JSON.parse(localStorage.getItem('quiz_participants') || '[]');
+                renderAdminTable();
+            }
+        }
+
         function renderAdminTable() {
-            const participants = JSON.parse(localStorage.getItem('quiz_participants') || '[]');
             const tbody = document.getElementById('adminTableBody');
             const totalCountEl = document.getElementById('adminTotalCount');
-            const paginationEl = document.getElementById('adminPagination');
-
             tbody.innerHTML = '';
 
-            // Inverter para mostrar os mais recentes primeiro
-            const allParticipants = [...participants].reverse();
-            const total = allParticipants.length;
+            const total = globalParticipants.length;
             totalCountEl.textContent = `Total: ${total} participantes`;
 
             const totalPages = Math.ceil(total / adminPageSize);
             if (adminCurrentPage > totalPages && totalPages > 0) adminCurrentPage = totalPages;
 
-            // Fatiar os dados para a página atual
             const start = (adminCurrentPage - 1) * adminPageSize;
             const end = start + adminPageSize;
-            const pagedData = allParticipants.slice(start, end);
+            const pagedData = globalParticipants.slice(start, end);
+
+            if (pagedData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-navy-custom/50 italic">Nenhum dado encontrado no Supabase.</td></tr>';
+                return;
+            }
 
             pagedData.forEach(p => {
                 const row = document.createElement('tr');
                 row.className = "hover:bg-primary-container/10 transition-colors";
                 row.innerHTML = `
-                    <td class="p-3 text-xs border-r border-navy-custom/20 whitespace-nowrap">${p.data || '-'}</td>
+                    <td class="p-3 text-xs border-r border-navy-custom/20 whitespace-nowrap">${p.data_formatada || p.created_at || '-'}</td>
                     <td class="p-3 font-bold border-r border-navy-custom/20">${p.nome}</td>
                     <td class="p-3 text-xs border-r border-navy-custom/20">${p.email}</td>
                     <td class="p-3 text-xs border-r border-navy-custom/20">${p.setor} / ${p.unidade}</td>
@@ -666,7 +690,6 @@
                 tbody.appendChild(row);
             });
 
-            // Renderizar Paginação
             renderPagination(totalPages);
         }
 
@@ -695,23 +718,22 @@
         }
 
         function downloadCSV() {
-            const participants = JSON.parse(localStorage.getItem('quiz_participants') || '[]');
-            if (participants.length === 0) {
-                alert("Nenhum dado para exportar.");
+            if (globalParticipants.length === 0) {
+                alert("Nenhum dado global para exportar.");
                 return;
             }
 
-            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // BOM para Excel entender acentos
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; 
             csvContent += "Data;Nome;Email;Setor;Unidade;Resultado;Status\n";
 
-            participants.forEach(p => {
+            globalParticipants.forEach(p => {
                 const row = [
-                    p.data || '',
+                    p.data_formatada || p.created_at || '',
                     p.nome,
                     p.email,
                     p.setor,
                     p.unidade,
-                    p.resultado || '',
+                    p.resultado || 'Pendente',
                     p.status
                 ].map(val => `"${val}"`).join(";");
                 csvContent += row + "\n";
